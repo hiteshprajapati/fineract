@@ -18,7 +18,7 @@
  */
 package org.apache.fineract.infrastructure.classdupes;
 
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
@@ -32,7 +32,7 @@ public class ClasspathHellDuplicatesCheckRuleTest {
     // @ClassRule public static ClasspathHellDuplicatesCheckRule jHades = new
     // ClasspathHellDuplicatesCheckRule();
 
-    @Test // we just need this because JUnit doesn't like a *Test class with
+    //@Test // we just need this because JUnit doesn't like a *Test class with
           // only a Rule
     public void testIfThereAreAnyDuplicatesOnTheClasspath() throws Exception {}
 }

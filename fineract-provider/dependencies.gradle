@@ -18,7 +18,7 @@
  */
 
 dependencies {
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    providedRuntime("org.springframework.boot:spring-boot-starter-undertow")
 
     // Never use "compile" scope, but make all dependencies either 'implementation', 'runtimeOnly' or 'testCompile'.
     // Note that we never use 'api', because Fineract at least currently is a simple monolithic application ("WAR"), not a library.
@@ -26,8 +26,11 @@ dependencies {
 
     // implementation dependencies are directly used (compiled against) in src/main (and src/test)
     //
+    implementation('org.springframework.boot:spring-boot-starter-web'){
+        exclude module: 'spring-boot-starter-tomcat'
+    }
     implementation(
-            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-undertow',
             'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.boot:spring-boot-starter-cache',
 

@@ -26,7 +26,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
-import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -36,7 +36,7 @@ public class EmbeddedTomcatWithSSLConfiguration {
 
     // https://docs.spring.io/spring-boot/docs/2.2.6.RELEASE/reference/html/howto.html#howto-enable-multiple-connectors-in-tomcat
 
-    @Bean
+    //@Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
         tomcat.setContextPath(getContextPath());

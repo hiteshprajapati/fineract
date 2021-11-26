@@ -262,7 +262,7 @@ bootRun {
 }
 
 springBoot {
-    mainClass = 'org.apache.fineract.ServerApplication'
+    mainClass = 'org.apache.fineract.ServerApplicationWithUndertow'
 }
 
 bootJar {
