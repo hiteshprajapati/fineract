@@ -20,12 +20,12 @@ package org.apache.fineract;
 
 import java.io.IOException;
 import org.apache.fineract.infrastructure.core.boot.AbstractApplicationConfiguration;
-import org.apache.fineract.infrastructure.core.boot.EmbeddedTomcatWithSSLConfiguration;
+//import org.apache.fineract.infrastructure.core.boot.EmbeddedTomcatWithSSLConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Import;
+//import org.springframework.context.annotation.Import;
 
 /**
  * Fineract main() application which launches Fineract in an embedded Tomcat HTTP (using Spring Boot).
@@ -42,7 +42,7 @@ import org.springframework.context.annotation.Import;
 
 public class ServerApplication extends SpringBootServletInitializer {
 
-    @Import({ EmbeddedTomcatWithSSLConfiguration.class })
+    //@Import({ EmbeddedTomcatWithSSLConfiguration.class })
     private static class Configuration extends AbstractApplicationConfiguration {}
 
     @Override
