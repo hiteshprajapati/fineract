@@ -26,10 +26,14 @@ dependencies {
 
     // implementation dependencies are directly used (compiled against) in src/main (and src/test)
     //
-    implementation('org.springframework.boot:spring-boot-starter-web'){
+    /*implementation('org.springframework.boot:spring-boot-starter-web'){
         exclude module: 'spring-boot-starter-tomcat'
+    }*/
+    configurations.all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
     implementation(
+            'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.boot:spring-boot-starter-undertow',
             'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.boot:spring-boot-starter-cache',
