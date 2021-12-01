@@ -18,7 +18,7 @@
  */
 
 dependencies {
-    providedRuntime("org.springframework.boot:spring-boot-starter-undertow")
+
 
     // Never use "compile" scope, but make all dependencies either 'implementation', 'runtimeOnly' or 'testCompile'.
     // Note that we never use 'api', because Fineract at least currently is a simple monolithic application ("WAR"), not a library.
@@ -29,12 +29,31 @@ dependencies {
     /*implementation('org.springframework.boot:spring-boot-starter-web'){
         exclude module: 'spring-boot-starter-tomcat'
     }*/
-    configurations.all {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    ///
+    if(project.hasProperty('servletContainer') &&
+            ( (project.getProperty('servletContainer') == 'undertow') || (project.getProperty('servletContainer') == 'jetty') )){
+
+        configurations.all {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        }
+
+        if (project.getProperty('servletContainer') == 'jetty') {
+            providedRuntime("org.springframework.boot:spring-boot-starter-jetty")
+            implementation(
+                    'org.springframework.boot:spring-boot-starter-jetty'
+            )
+        } else if (project.getProperty('servletContainer') == 'undertow') {
+            providedRuntime("org.springframework.boot:spring-boot-starter-undertow")
+            implementation(
+                    'org.springframework.boot:spring-boot-starter-undertow'
+            )
+        }
+    } else {
+        providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     }
+    ///
     implementation(
             'org.springframework.boot:spring-boot-starter-web',
-            'org.springframework.boot:spring-boot-starter-undertow',
             'org.springframework.boot:spring-boot-starter-security',
             'org.springframework.boot:spring-boot-starter-cache',
 
