@@ -20,21 +20,6 @@
 # (unless we'd install a more recent version in .travis.yml)
 version: '3.7'
 services:
-  # Backend service
-  fineractmysql:
-    image: mariadb:10.8
-    volumes:
-      - ./fineract-db/server_collation.cnf:/etc/mysql/conf.d/server_collation.cnf
-      - ./fineract-db/docker:/docker-entrypoint-initdb.d:Z,ro
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: skdcnwauicn2ucnaecasdsajdnizucawencascdca
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "--password=skdcnwauicn2ucnaecasdsajdnizucawencascdca" ]
-      timeout: 10s
-      retries: 10
-    ports:
-      - "3306:3306"
   fineract-server:
     image: fineract:latest
     volumes:
@@ -45,9 +30,6 @@ services:
       retries: 10
     ports:
       - 8443:8443
-    depends_on:
-      fineractmysql:
-        condition: service_healthy
     environment:
       # TODO: env vars prefixed with "fineract_tenants_*" will be removed with one of the next releases
       #- fineract_tenants_driver=org.mariadb.jdbc.Driver
@@ -58,9 +40,9 @@ services:
       - FINERACT_NODE_ID=1
       # NOTE: env vars prefixed "FINERACT_HIKARI_*" are used to configure the database connection pool
       - FINERACT_HIKARI_DRIVER_SOURCE_CLASS_NAME=org.mariadb.jdbc.Driver
-      - FINERACT_HIKARI_JDBC_URL=jdbc:mariadb://fineractmysql:3306/fineract_tenants
-      - FINERACT_HIKARI_USERNAME=root
-      - FINERACT_HIKARI_PASSWORD=skdcnwauicn2ucnaecasdsajdnizucawencascdca
+      - FINERACT_HIKARI_JDBC_URL=jdbc:mariadb://first-fineract-1-7-0-mariadb.c8xs0vtggndc.ap-south-1.rds.amazonaws.com:3306/fineract_tenants
+      - FINERACT_HIKARI_USERNAME=admin
+      - FINERACT_HIKARI_PASSWORD=PtkwcgpyP2HTjg3LuGTQ
       # ... following variables are optional; "application.properties" contains reasonable defaults (same as here)
       - FINERACT_HIKARI_MINIMUM_IDLE=3
       - FINERACT_HIKARI_MAXIMUM_POOL_SIZE=10
@@ -81,12 +63,20 @@ services:
       - FINERACT_HIKARI_DS_PROPERTIES_LOG_SLOW_QUERIES=true
       - FINERACT_HIKARI_DS_PROPERTIES_DUMP_QUERIES_IN_EXCEPTION=true
       # NOTE: env vars prefixed "FINERACT_DEFAULT_TENANTDB_*" are used to create the default tenant database
-      - FINERACT_DEFAULT_TENANTDB_HOSTNAME=fineractmysql
+      - FINERACT_DEFAULT_TENANTDB_HOSTNAME=first-fineract-1-7-0-mariadb.c8xs0vtggndc.ap-south-1.rds.amazonaws.com
       - FINERACT_DEFAULT_TENANTDB_PORT=3306
-      - FINERACT_DEFAULT_TENANTDB_UID=root
-      - FINERACT_DEFAULT_TENANTDB_PWD=skdcnwauicn2ucnaecasdsajdnizucawencascdca
+      - FINERACT_DEFAULT_TENANTDB_UID=admin
+      - FINERACT_DEFAULT_TENANTDB_PWD=PtkwcgpyP2HTjg3LuGTQ
       - FINERACT_DEFAULT_TENANTDB_CONN_PARAMS=
       - FINERACT_DEFAULT_TENANTDB_TIMEZONE=Asia/Kolkata
       - FINERACT_DEFAULT_TENANTDB_IDENTIFIER=default
       - FINERACT_DEFAULT_TENANTDB_NAME=fineract_default
       - FINERACT_DEFAULT_TENANTDB_DESCRIPTION=Default Demo Tenant
+
+    # Frontend service
+  community-app:
+    image: openmf/community-app:latest
+    container_name: mifos-ui
+    restart: always
+    ports:
+      - 9090:80
